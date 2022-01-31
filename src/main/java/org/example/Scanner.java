@@ -104,6 +104,17 @@ public class Scanner {
           // We peek for the newline instead of match so we see the newline at the top-level of the
           // Scanner and can consume it there and increment the line number.
           while (peek() != '\n' && !isAtEnd()) advance();
+        } else if (match('*')) {
+          while (!(peek() == '*' && peekNext() == '/') && !isAtEnd()) {
+            if (advance() == '\n') line++;
+          }
+          if (isAtEnd()) {
+            Lox.error(line, "Unterminated block comment");
+            break;
+          }
+          // The closing "*/".
+          advance();
+          advance();
         } else {
           addToken(SLASH);
         }
