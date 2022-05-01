@@ -1,4 +1,4 @@
-package org.example;
+package com.laracey.lox.interpreter;
 
 public enum TokenType {
   // Single-character tokens.
