@@ -23,6 +23,6 @@
 
   <modules>
     <module>interpreter</module>
-    <module>plugin</module>
+    <module>codegen</module>
   </modules>
 </project>
