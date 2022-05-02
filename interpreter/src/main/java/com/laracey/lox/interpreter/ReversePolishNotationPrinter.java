@@ -3,6 +3,7 @@ package com.laracey.lox.interpreter;
 import com.laracey.lox.interpreter.Expr.Binary;
 import com.laracey.lox.interpreter.Expr.Grouping;
 import com.laracey.lox.interpreter.Expr.Literal;
+import com.laracey.lox.interpreter.Expr.Ternary;
 import com.laracey.lox.interpreter.Expr.Unary;
 import com.laracey.lox.interpreter.Expr.Visitor;
 
@@ -29,6 +30,11 @@ public class ReversePolishNotationPrinter implements Visitor<String> {
   @Override
   public String visitUnaryExpr(Unary expr) {
     return expr.right.accept(this) + " " + expr.operator.lexeme + " ";
+  }
+
+  @Override
+  public String visitTernaryExpr(Ternary expr) {
+    throw new RuntimeException("Unimplemented: visitTernaryExpr(Ternary)");
   }
 
   public static void main(String[] args) {

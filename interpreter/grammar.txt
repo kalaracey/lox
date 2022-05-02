@@ -1,5 +1,7 @@
 # expression     --> equality ;
-expression     --> equality ( "," equality )* ;
+# expression     --> equality ( "," equality )* ; # 6. Challenge 1.
+expression     --> ternary ( "," ternary )* ; # 6. Challenge 1.
+ternary        --> equality ( "?" ternary ":" ternary ) # 6. Challenge 2.
 equality       --> comparison ( ( "!=" | "==" ) comparison )* ;
 comparison     --> term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
 term           --> factor ( ( "-" | "+" ) factor )* ;
@@ -8,3 +10,13 @@ unary          --> ( "!" | "-" ) unary
                    | primary ;
 primary        --> NUMBER | STRING | "true" | "false" | "nil"
                    | "(" expression ")" ;
+
+# Cannot have
+#   a ? b ? : c : d
+#
+# Also
+#   a ? b : c ? d : e
+# can be parsed as
+#  (a ? b : c) ? d : e
+# or
+#   a ? b : (c ? d : e)

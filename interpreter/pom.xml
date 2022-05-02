@@ -76,17 +76,17 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>exec-maven-plugin</artifactId>
-          <version>3.0.0</version>
-          <configuration>
-            <mainClass>com.laracey.lox.interpreter.Lox</mainClass>
-          </configuration>
-        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        <configuration>
+          <mainClass>com.laracey.lox.interpreter.Lox</mainClass>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>com.laracey.lox</groupId>
         <artifactId>codegen</artifactId>
