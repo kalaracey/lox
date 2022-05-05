@@ -23,15 +23,22 @@ public class Parser {
   }
 
   private Expr expression() {
+    TokenType tokens[] = {COMMA};
+    boolean error = false;
+    // Error production.
+    if (match(tokens)) {
+      Lox.error(previous(), "left-hand operand missing");
+      error = true;
+    }
     Expr expr = ternary();
 
-    while (match(COMMA)) {
+    while (match(tokens)) {
       Token operator = previous();
       Expr right = ternary();
       expr = new Expr.Binary(expr, operator, right);
     }
 
-    return expr;
+    return error ? null : expr;
   }
 
   private Expr ternary() {
@@ -48,51 +55,79 @@ public class Parser {
   }
 
   private Expr equality() {
+    TokenType tokens[] = {BANG_EQUAL, EQUAL_EQUAL};
+    boolean error = false;
+    // Error production.
+    if (match(tokens)) {
+      Lox.error(previous(), "left-hand operand missing");
+      error = true;
+    }
     Expr expr = comparison();
 
-    while (match(BANG_EQUAL, EQUAL_EQUAL)) {
+    while (match(tokens)) {
       Token operator = previous();
       Expr right = comparison();
       expr = new Expr.Binary(expr, operator, right);
     }
 
-    return expr;
+    return error ? null : expr;
   }
 
   private Expr comparison() {
+    TokenType tokens[] = {GREATER, GREATER_EQUAL, LESS, LESS_EQUAL};
+    boolean error = false;
+    // Error production.
+    if (match(tokens)) {
+      Lox.error(previous(), "left-hand operand missing");
+      error = true;
+    }
     Expr expr = term();
 
-    while (match(GREATER, GREATER_EQUAL, LESS, LESS_EQUAL)) {
+    while (match(tokens)) {
       Token operator = previous();
       Expr right = term();
       expr = new Expr.Binary(expr, operator, right);
     }
 
-    return expr;
+    return error ? null : expr;
   }
 
   private Expr term() {
+    TokenType tokens[] = {MINUS, PLUS};
+    boolean error = false;
+    // Error production.
+    if (match(tokens)) {
+      Lox.error(previous(), "left-hand operator missing");
+      error = true;
+    }
     Expr expr = factor();
 
-    while (match(MINUS, PLUS)) {
+    while (match(tokens)) {
       Token operator = previous();
       Expr right = factor();
       expr = new Expr.Binary(expr, operator, right);
     }
 
-    return expr;
+    return error ? null : expr;
   }
 
   private Expr factor() {
+    TokenType tokens[] = {SLASH, STAR};
+    boolean error = false;
+    // Error production.
+    if (match(tokens)) {
+      Lox.error(previous(), "left-hand operator missing");
+      error = true;
+    }
     Expr expr = unary();
 
-    while (match(SLASH, STAR)) {
+    while (match(tokens)) {
       Token operator = previous();
       Expr right = unary();
       expr = new Expr.Binary(expr, operator, right);
     }
 
-    return expr;
+    return error ? null : expr;
   }
 
   private Expr unary() {
