@@ -25,4 +25,14 @@
     <module>interpreter</module>
     <module>codegen</module>
   </modules>
+
+  <!--  <dependencyManagement>-->
+  <!--    <dependencies>-->
+  <!--      <dependency>-->
+  <!--        <groupId>net.sourceforge.argparse4j</groupId>-->
+  <!--        <artifactId>argparse4j</artifactId>-->
+  <!--        <version>0.9.0</version>-->
+  <!--      </dependency>-->
+  <!--    </dependencies>-->
+  <!--  </dependencyManagement>-->
 </project>

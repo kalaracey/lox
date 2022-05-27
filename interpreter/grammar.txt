@@ -1,6 +1,18 @@
+program        --> declaration* EOF
+declaration    --> varDecl | statement
+varDecl        --> "var" IDENTIFIER ( "=" expression )? ";" ;
+statement      --> exprStmt
+                   | printStmt
+                   | block ;
+block          --> "{" declaration* "}" ;
+exprStmt       --> expression ";" ;
+printStmt      --> "print" expression ";" ;
 # expression     --> equality ;
 # expression     --> equality ( "," equality )* ; # 6. Challenge 1.
-expression     --> ternary ( "," ternary )* ; # 6. Challenge 1.
+# expression     --> ternary ( "," ternary )* ; # 6. Challenge 1.
+expression     --> assignment ( "," assignment )* ; # 6. Challenge 1, modified for assignment.
+assignment     --> IDENTIFIER "=" assignment
+                   | ternary # Book has this as equality.
 ternary        --> equality ( "?" ternary ":" ternary ) # 6. Challenge 2.
 equality       --> comparison ( ( "!=" | "==" ) comparison )* ;
 comparison     --> term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
@@ -9,7 +21,8 @@ factor         --> unary ( ( "/" | "*" ) unary )* ;
 unary          --> ( "!" | "-" ) unary
                    | primary ;
 primary        --> NUMBER | STRING | "true" | "false" | "nil"
-                   | "(" expression ")" ;
+                   | "(" expression ")"
+                   | IDENTIFIER ;
 
 # Cannot have
 #   a ? b ? : c : d

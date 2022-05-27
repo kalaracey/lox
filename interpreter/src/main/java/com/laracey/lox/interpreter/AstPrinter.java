@@ -1,10 +1,12 @@
 package com.laracey.lox.interpreter;
 
+import com.laracey.lox.interpreter.Expr.Assign;
 import com.laracey.lox.interpreter.Expr.Binary;
 import com.laracey.lox.interpreter.Expr.Grouping;
 import com.laracey.lox.interpreter.Expr.Literal;
 import com.laracey.lox.interpreter.Expr.Ternary;
 import com.laracey.lox.interpreter.Expr.Unary;
+import com.laracey.lox.interpreter.Expr.Variable;
 
 public class AstPrinter implements Expr.Visitor<String> {
   String print(Expr expr) {
@@ -35,6 +37,17 @@ public class AstPrinter implements Expr.Visitor<String> {
   @Override
   public String visitTernaryExpr(Ternary expr) {
     return parenthesize("ternary", expr.left, expr.middle, expr.right);
+  }
+
+  @Override
+  public String visitVariableExpr(Variable expr) {
+    // Not sure if this is correct, just adding this method to satisfy the compiler.
+    return expr.name.lexeme;
+  }
+
+  @Override
+  public String visitAssignExpr(Assign expr) {
+    throw new RuntimeException("Unimplemented.");
   }
 
   private String parenthesize(String name, Expr... exprs) {

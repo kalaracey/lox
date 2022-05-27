@@ -7,19 +7,39 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import net.sourceforge.argparse4j.ArgumentParsers;
+import net.sourceforge.argparse4j.inf.ArgumentParser;
+import net.sourceforge.argparse4j.inf.ArgumentParserException;
+import net.sourceforge.argparse4j.inf.Namespace;
 
 /** Hello world! */
 public class Lox {
   private static final Interpreter interpreter = new Interpreter();
   static boolean hadError = false;
   static boolean hadRuntimeError = true;
+  static List<Feature> enabledFeatures;
 
   public static void main(String[] args) throws IOException {
-    if (args.length > 1) {
-      System.out.println("Usage: jlox [script]");
+    ArgumentParser parser =
+        ArgumentParsers.newFor("Lox")
+            .build()
+            .defaultHelp(true)
+            .description("Java interpreter for the Lox language.");
+    parser.addArgument("-f", "--feature").type(Feature.class).metavar("<feature>").nargs("+");
+    parser.addArgument("file").nargs("?");
+    Namespace ns = null;
+    try {
+      ns = parser.parseArgs(args);
+    } catch (ArgumentParserException e) {
+      parser.handleError(e);
       System.exit(64);
-    } else if (args.length == 1) {
-      runFile(args[0]);
+    }
+
+    enabledFeatures = ns.<Feature>getList("feature");
+
+    String file = ns.getString("file");
+    if (file != null) {
+      runFile(file);
     } else {
       runPrompt();
     }
@@ -50,13 +70,13 @@ public class Lox {
     Scanner scanner = new Scanner(source);
     List<Token> tokens = scanner.scanTokens();
     Parser parser = new Parser(tokens);
-    Expr expression = parser.parse();
+    List<Stmt> statements = parser.parse();
 
     // Stop if there was a syntax error.
     if (hadError) return;
 
     // System.out.println(new AstPrinter().print(expression));
-    interpreter.interpret(expression);
+    interpreter.interpret(statements);
   }
 
   static void error(int line, String message) {
