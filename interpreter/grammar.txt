@@ -2,17 +2,30 @@ program        --> declaration* EOF
 declaration    --> varDecl | statement
 varDecl        --> "var" IDENTIFIER ( "=" expression )? ";" ;
 statement      --> exprStmt
+                   | forStmt
+                   | ifStmt
                    | printStmt
+                   | whileStmt
                    | block ;
+forStmt        --> "for" "(" ( varDecl | exprStmt | ";" )
+                   expression? ";"
+                   expression? ")" statement ;
+whileStmt      --> "while" "(" expression ")" statement ;
 block          --> "{" declaration* "}" ;
 exprStmt       --> expression ";" ;
 printStmt      --> "print" expression ";" ;
+ifStmt         --> "if" "(" expression ")" statement
+                   ( "else" statement )? ;
 # expression     --> equality ;
 # expression     --> equality ( "," equality )* ; # 6. Challenge 1.
 # expression     --> ternary ( "," ternary )* ; # 6. Challenge 1.
 expression     --> assignment ( "," assignment )* ; # 6. Challenge 1, modified for assignment.
 assignment     --> IDENTIFIER "=" assignment
-                   | ternary # Book has this as equality.
+                   | logic_or
+
+logic_or       --> logic_and ( "or" logic_and )* ;
+logic_and      --> ternary ( "and" ternary )* ; # Book has equality instead of ternary.
+
 ternary        --> equality ( "?" ternary ":" ternary ) # 6. Challenge 2.
 equality       --> comparison ( ( "!=" | "==" ) comparison )* ;
 comparison     --> term ( ( ">" | ">=" | "<" | "<=" ) term )* ;

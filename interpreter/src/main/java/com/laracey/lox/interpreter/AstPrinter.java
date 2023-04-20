@@ -50,6 +50,11 @@ public class AstPrinter implements Expr.Visitor<String> {
     throw new RuntimeException("Unimplemented.");
   }
 
+  @Override
+  public String visitLogicalExpr(Expr.Logical expr) {
+    throw new RuntimeException("Unimplemented.");
+  }
+
   private String parenthesize(String name, Expr... exprs) {
     StringBuilder builder = new StringBuilder();
 
