@@ -2,6 +2,7 @@ package com.laracey.lox.interpreter;
 
 import com.laracey.lox.interpreter.Expr.Assign;
 import com.laracey.lox.interpreter.Expr.Binary;
+import com.laracey.lox.interpreter.Expr.Call;
 import com.laracey.lox.interpreter.Expr.Grouping;
 import com.laracey.lox.interpreter.Expr.Literal;
 import com.laracey.lox.interpreter.Expr.Ternary;
@@ -52,6 +53,11 @@ public class AstPrinter implements Expr.Visitor<String> {
 
   @Override
   public String visitLogicalExpr(Expr.Logical expr) {
+    throw new RuntimeException("Unimplemented.");
+  }
+
+  @Override
+  public String visitCallExpr(Call expr) {
     throw new RuntimeException("Unimplemented.");
   }
 

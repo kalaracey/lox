@@ -1,12 +1,19 @@
 program        --> declaration* EOF
-declaration    --> varDecl | statement
+declaration    --> funDecl
+                   | varDecl
+                   | statement
+funDecl        --> "fun" function ;
+function       --> IDENTIFIER "(" parameters? ")" block ;
+parameters     --> IDENTIFIER ( "," IDENTIFIER )* ;
 varDecl        --> "var" IDENTIFIER ( "=" expression )? ";" ;
 statement      --> exprStmt
                    | forStmt
                    | ifStmt
                    | printStmt
+                   | returnStmt
                    | whileStmt
                    | block ;
+returnStmt     --> "return" expression? ";" ;
 forStmt        --> "for" "(" ( varDecl | exprStmt | ";" )
                    expression? ";"
                    expression? ")" statement ;
@@ -19,7 +26,8 @@ ifStmt         --> "if" "(" expression ")" statement
 # expression     --> equality ;
 # expression     --> equality ( "," equality )* ; # 6. Challenge 1.
 # expression     --> ternary ( "," ternary )* ; # 6. Challenge 1.
-expression     --> assignment ( "," assignment )* ; # 6. Challenge 1, modified for assignment.
+# expression     --> assignment ( "," assignment )* ; # 6. Challenge 1, modified for assignment.
+expression     --> assignment # 10. Functions.
 assignment     --> IDENTIFIER "=" assignment
                    | logic_or
 
@@ -31,8 +39,9 @@ equality       --> comparison ( ( "!=" | "==" ) comparison )* ;
 comparison     --> term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
 term           --> factor ( ( "-" | "+" ) factor )* ;
 factor         --> unary ( ( "/" | "*" ) unary )* ;
-unary          --> ( "!" | "-" ) unary
-                   | primary ;
+unary          --> ( "!" | "-" ) unary | call ;
+call           --> primary ( "(" arguments? ")"* ;
+arguments      --> expression ( "," expression )* ;
 primary        --> NUMBER | STRING | "true" | "false" | "nil"
                    | "(" expression ")"
                    | IDENTIFIER ;
