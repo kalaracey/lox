@@ -1,0 +1,5 @@
+// Expect 'Already a variable with this name in this scope.'
+fun bad() {
+  var a = "first";
+  var a = "second";
+}

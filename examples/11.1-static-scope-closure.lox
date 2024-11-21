@@ -1,0 +1,12 @@
+var a = "global";
+{
+  fun showA() {
+    print a;
+  }
+
+  print("Expect global:");
+  showA();
+  var a = "block";
+  print("Expect global:");
+  showA();
+}

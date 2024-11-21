@@ -1,0 +1,2 @@
+// Expect 'Can't return from top-level code.' 
+return "at top level";
